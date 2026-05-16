@@ -404,6 +404,31 @@ const VYRA_FEATURES: { title: string; body: string }[] = [
   },
 ];
 
+/**
+ * Replace every "Omoggle" (and "Omoggle's") inside a string with a
+ * hyperlink to omoggle.com. The link inherits its surrounding text color
+ * so it works on both the dark hero and the light page body.
+ */
+function linkOmoggle(text: string): React.ReactNode[] {
+  return text.split(/(Omoggle(?:'s|’s)?)/g).map((part, i) => {
+    if (/^Omoggle/.test(part)) {
+      return (
+        <a
+          key={i}
+          href="https://omoggle.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-4 decoration-current/40 hover:decoration-current transition-[text-decoration-color]"
+          style={{ color: 'inherit' }}
+        >
+          {part}
+        </a>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 function OmoggleDetail({ project, onClose }: { project: Project; onClose: () => void }) {
   return (
     <div>
@@ -424,13 +449,21 @@ function OmoggleDetail({ project, onClose }: { project: Project; onClose: () => 
             transition={{ delay: 0.35, duration: 0.7 }}
           >
             <div className="font-sans text-[10px] tracking-[0.35em] uppercase text-white/60 mb-3">
-              {project.category} · Shipped for Omoggle
+              {project.category} · Shipped for{' '}
+              <a
+                href="https://omoggle.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4 hover:text-white transition-colors"
+              >
+                Omoggle
+              </a>
             </div>
             <h1 className="font-display text-[clamp(3.5rem,10vw,9rem)] leading-[0.92] tracking-[-0.025em] text-white">
               {project.title}
             </h1>
             <p className="mt-4 font-display italic text-xl md:text-2xl text-white/80 max-w-2xl text-balance">
-              {project.tagline}
+              {linkOmoggle(project.tagline)}
             </p>
           </motion.div>
         </div>
@@ -449,14 +482,14 @@ function OmoggleDetail({ project, onClose }: { project: Project; onClose: () => 
             <section>
               <h2 className="font-sans text-[10px] tracking-[0.35em] uppercase text-ink-300 mb-3">The model</h2>
               <p className="font-display italic text-xl md:text-2xl text-ink-700 leading-[1.4] text-balance">
-                {project.description}
+                {linkOmoggle(project.description)}
               </p>
             </section>
 
             <section>
               <h2 className="font-sans text-[10px] tracking-[0.35em] uppercase text-ink-300 mb-3">In production</h2>
               <p className="font-sans text-base md:text-[17px] text-ink-700 leading-[1.75] text-balance">
-                {project.details}
+                {linkOmoggle(project.details)}
               </p>
             </section>
 
