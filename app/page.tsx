@@ -14,7 +14,7 @@ export default function Home() {
       <About />
       <footer className="px-6 md:px-12 lg:px-16 py-12 border-t border-cream-200">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-[11px] font-sans tracking-[0.2em] uppercase text-ink-300">
-          <div>© 2026 Caleb Pong · Made in Providence</div>
+          <div>© 2026 Caleb Pong</div>
           <div className="flex items-center gap-6">
             <a
               href="mailto:calebpongj@gmail.com"
