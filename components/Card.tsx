@@ -27,7 +27,8 @@ function interp(x: number, input: number[], output: number[]): number {
 
 const O_IN = [-2, -1, 0, 1, 2, 3, 4, 5, 6];
 const X_OUT = [-1500, -900, -150, 110, 230, 330, 410, 480, 540];
-const Y_OUT = [600, 340, 90, -80, -150, -210, -260, -300, -340];
+// Shifted +90 vs. original to keep the deck clear of the fixed header
+const Y_OUT = [690, 430, 180, 10, -60, -120, -170, -210, -250];
 const Z_OUT = [200, 100, 0, -160, -320, -480, -620, -740, -860];
 const RY_OUT = [-30, -22, -16, -16, -16, -16, -16, -16, -16];
 const RZ_OUT = [-12, -6, 0, 1.5, 3, 4.5, 6, 7.5, 9];
