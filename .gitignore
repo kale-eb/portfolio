@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+build
+.env*.local
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# Video source / intermediate ffmpeg artifacts — only video-combined.mp4 is used by the site
+public/projects/video-original.mp4
+public/projects/video-original-matched.mp4
+public/projects/videoascii.mp4
+public/projects/videoascii-matched.mp4
