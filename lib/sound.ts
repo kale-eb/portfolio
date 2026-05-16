@@ -1,4 +1,5 @@
 let ctx: AudioContext | null = null;
+let noiseBuffer: AudioBuffer | null = null;
 
 function getCtx(): AudioContext | null {
   if (typeof window === 'undefined') return null;
@@ -11,9 +12,25 @@ function getCtx(): AudioContext | null {
   return ctx;
 }
 
+// Pre-generate a short noise buffer once, reuse forever.
+function getNoiseBuffer(audioCtx: AudioContext): AudioBuffer {
+  if (noiseBuffer && noiseBuffer.sampleRate === audioCtx.sampleRate) {
+    return noiseBuffer;
+  }
+  const duration = 0.04; // 40 ms — longer than playback so we can window it
+  const len = Math.floor(audioCtx.sampleRate * duration);
+  const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  noiseBuffer = buf;
+  return buf;
+}
+
 /**
- * Prize-wheel-style tick. Sharp attack, fast decay, slight pitch drop —
- * the mechanical "notch" feel of a click stop.
+ * Roulette-wheel / spinner tick — a filtered noise burst.
+ * Sharp impulse + tight bandpass ring, no pitch sweep, ~25 ms total.
  */
 export function playClick() {
   const audioCtx = getCtx();
@@ -25,26 +42,32 @@ export function playClick() {
 
   const now = audioCtx.currentTime;
 
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
+  // Short noise burst — the source of the "click" texture
+  const source = audioCtx.createBufferSource();
+  source.buffer = getNoiseBuffer(audioCtx);
+
+  // Tight bandpass for the metallic "tick" focus
   const filter = audioCtx.createBiquadFilter();
-
-  osc.type = 'square';
-  osc.frequency.setValueAtTime(2400, now);
-  osc.frequency.exponentialRampToValueAtTime(900, now + 0.035);
-
   filter.type = 'bandpass';
-  filter.frequency.value = 1700;
-  filter.Q.value = 3.5;
+  filter.frequency.value = 2300;
+  filter.Q.value = 11;
 
+  // Slight highpass cleanup to kill any low rumble
+  const hp = audioCtx.createBiquadFilter();
+  hp.type = 'highpass';
+  hp.frequency.value = 1100;
+
+  // Razor-fast envelope: 0 → peak in 1 ms, decay to silence in ~22 ms
+  const gain = audioCtx.createGain();
   gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(0.07, now + 0.001);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+  gain.gain.linearRampToValueAtTime(0.18, now + 0.001);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.023);
 
-  osc.connect(filter);
-  filter.connect(gain);
+  source.connect(filter);
+  filter.connect(hp);
+  hp.connect(gain);
   gain.connect(audioCtx.destination);
 
-  osc.start(now);
-  osc.stop(now + 0.07);
+  source.start(now);
+  source.stop(now + 0.04);
 }
