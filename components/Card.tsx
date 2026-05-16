@@ -198,12 +198,12 @@ function OmoggleArt({ project, index }: { project: Project; index: number }) {
       <div className="absolute top-1/2 -translate-y-1/2 left-8 max-w-[44%] z-10">
         <TitleBlock project={project} theme="light" />
       </div>
-      {/* Live score badge — call out the result */}
-      <div className="absolute bottom-7 right-8 z-10 flex items-baseline gap-2 font-display">
-        <span className="text-[10px] tracking-[0.3em] uppercase text-white/50 self-center">
-          Pearson r
-        </span>
-        <span className="text-4xl text-white">0.8779</span>
+      {/* Headline impact stat — call out the user count */}
+      <div className="absolute bottom-7 right-8 z-10 text-right">
+        <div className="font-display text-5xl text-white leading-none">2M+</div>
+        <div className="font-sans text-[10px] tracking-[0.3em] uppercase text-white/55 mt-2">
+          users · live in ranked mode
+        </div>
       </div>
     </div>
   );

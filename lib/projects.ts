@@ -55,20 +55,21 @@ export const projects: Project[] = [
     slug: 'omoggle',
     title: 'Omoggle',
     subtitle: 'Facial attractiveness ML',
-    tagline: 'I built the neural net behind a viral platform app.',
+    tagline:
+      "I built the neural net behind Omoggle's new Ranked Mode — shipped live to 2M+ users.",
     description:
-      "EfficientNet-B0 facial attractiveness model running entirely in the browser via ONNX Runtime Web. Powers Omoggle's facial scoring at 10 FPS.",
+      "EfficientNet-B0 facial attractiveness model running entirely in the browser via ONNX Runtime Web. Powers Omoggle's Ranked Mode for over 2 million users.",
     details:
-      'Real-time webcam-based facial attractiveness scoring. Trained on a combined corpus of SCUT-FBP5500, MEBeauty, and FairFace (with model-labeled augmentation). Achieved Pearson correlation of 0.8779 against the held-out test set. EfficientNet-B0 backbone, 5.3M params, quantized to 7.7MB ONNX for in-browser inference. MediaPipe handles face detection; smoothed score aggregation runs at 10 FPS in pure JS.',
+      "Real-time webcam-based facial attractiveness scoring, shipped live in Omoggle's new Ranked Mode for their 2M+ user base. Trained on a combined corpus of SCUT-FBP5500, MEBeauty, and FairFace (with model-labeled augmentation). Achieved Pearson correlation of 0.8779 against the held-out test set. EfficientNet-B0 backbone, 5.3M params, quantized to 7.7MB ONNX for in-browser inference. MediaPipe handles face detection; smoothed score aggregation runs at 10 FPS in pure JS.",
     tech: ['PyTorch', 'EfficientNet-B0', 'ONNX Runtime Web', 'MediaPipe', 'Modal A100'],
     metrics: [
+      { label: 'Users', value: '2M+' },
       { label: 'Pearson r', value: '0.8779' },
       { label: 'Model size', value: '7.7 MB' },
-      { label: 'Inference', value: '10 FPS' },
     ],
     links: [{ label: 'omoggle.com', href: 'https://omoggle.com' }],
     year: '2026',
-    category: 'Shipped ML',
+    category: 'Shipped ML · Live',
     accent: '#C99B6E',
     status: 'shipped',
   },
