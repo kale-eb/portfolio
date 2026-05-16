@@ -66,6 +66,7 @@ export const projects: Project[] = [
       { label: 'Model size', value: '7.7 MB' },
       { label: 'Inference', value: '10 FPS' },
     ],
+    links: [{ label: 'omoggle.com', href: 'https://omoggle.com' }],
     year: '2026',
     category: 'Shipped ML',
     accent: '#C99B6E',
