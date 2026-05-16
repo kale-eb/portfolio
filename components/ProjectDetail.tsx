@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { projects, Project } from '@/lib/projects';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -13,6 +14,21 @@ export default function ProjectDetail({
   onClose: () => void;
 }) {
   const project = projects.find((p) => p.slug === slug);
+
+  // Hide the site header while a detail page is open — its z-index conflicts
+  // with the close button, and the nav isn't useful on an expanded card view.
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (!header) return;
+    const prev = header.style.cssText;
+    header.style.opacity = '0';
+    header.style.pointerEvents = 'none';
+    header.style.transition = 'opacity 0.25s ease';
+    return () => {
+      header.style.cssText = prev;
+    };
+  }, []);
+
   if (!project) return null;
 
   return (

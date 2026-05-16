@@ -27,9 +27,16 @@ export default function Header() {
         className="absolute bottom-0 left-0 right-0 h-px bg-cream-200 pointer-events-none"
       />
 
-      <div className="relative font-display text-xl tracking-tight">
+      <a
+        href="#top"
+        onClick={(e) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        className="relative font-display text-xl tracking-tight cursor-pointer"
+      >
         Caleb<span className="text-sky-400 italic">.</span>
-      </div>
+      </a>
       <nav className="relative flex items-center gap-7 text-xs uppercase tracking-[0.2em] text-ink-700">
         <a href="#work" className="hover:text-ink-900 transition-colors">Work</a>
         <a href="#about" className="hover:text-ink-900 transition-colors">About</a>
